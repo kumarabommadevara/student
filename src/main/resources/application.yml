@@ -1,0 +1,17 @@
+logging:
+  level:
+    root: DEBUG
+spring:
+  profiles.actives: dev
+  datasource:
+    url: jdbc:h2:mem:mydb
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+  jpa:
+    spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+    hibernate:
+      ddlAuto: update
+  h2:
+    console.enabled: true
