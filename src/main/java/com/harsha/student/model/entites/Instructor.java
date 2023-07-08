@@ -31,7 +31,7 @@ public class Instructor {
     @ToString.Exclude
     private InstructorDetail instructorDetail;
     @OneToMany(mappedBy = "instructor",cascade = CascadeType.ALL)
-    @JsonIgnore
+
     @ToString.Exclude
     private List<Course> courses=new ArrayList<>();
 

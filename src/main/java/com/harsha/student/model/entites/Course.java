@@ -1,6 +1,7 @@
 package com.harsha.student.model.entites;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -26,10 +27,11 @@ public class Course {
     private String courseFee;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "instructor_id")
+    @JsonIgnore
     private Instructor instructor;
     @ManyToMany(mappedBy ="courses")
     @ToString.Exclude
-    @JsonIgnoreProperties
+    @JsonIgnore
     private List<Student> students=new ArrayList<>();
 
     public Course()

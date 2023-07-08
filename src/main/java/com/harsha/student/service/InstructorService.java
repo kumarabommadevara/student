@@ -6,6 +6,7 @@ import com.harsha.student.model.entites.Instructor;
 import com.harsha.student.repository.InstructorRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class InstructorService {
         logger.debug("inside Instructor service of saveInstructor method");
         return instructorRepository.save(instructor);
     }
+    @Cacheable(value = "itemCache")
 
     public List<Instructor> getInstructorList()
     {

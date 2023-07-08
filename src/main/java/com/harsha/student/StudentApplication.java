@@ -13,11 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 
 import java.util.Arrays;
 import java.util.List;
 
 @SpringBootApplication
+@EnableCaching
 public class StudentApplication implements CommandLineRunner {
 
     @Autowired
@@ -49,6 +51,7 @@ public class StudentApplication implements CommandLineRunner {
         instructor.setCourses(Arrays.asList(course, course1));
 
         instructorService.saveInstructor(instructor);
+
         logger.debug("instuctor saved to DB");
         Instructor instructor1 = new Instructor("sai", "sai@yahoo.com", "53546464646");
         InstructorDetail instructorDetail1 = new InstructorDetail("watching movies", "Btech");
@@ -59,16 +62,25 @@ public class StudentApplication implements CommandLineRunner {
         instructor1.setCourses(Arrays.asList(course2));
         instructorService.saveInstructor(instructor1);
 
+        Instructor instructor2 = new Instructor("Raj", "Raj@yahoo.com", "3449593532");
+        InstructorDetail instructorDetail2 = new InstructorDetail("cricket", "Btech");
+        instructor2.setInstructorDetail(instructorDetail2);
+        Course course3 = new Course("Devops", "20000");
+        course3.setInstructor(instructor2);
+        instructor2.setInstructorDetail(instructorDetail2);
+        instructor2.setCourses(Arrays.asList(course3));
+        instructorService.saveInstructor(instructor2);
+
         Student student = new Student("john", "john@gmail.com");
         Student student1 = new Student("rob", "rob@gmail.com");
         Student student2 = new Student("alex", "alex@gmail.com");
         Student student3 = new Student("king", "king@gmail.com");
         Student student4 = new Student("mary", "mary@gmail.com");
-        student4.setCourses(Arrays.asList(course1,course2));
-		student1.setCourses(Arrays.asList(course));
-		student3.setCourses(Arrays.asList(course));
-
-		studentService.saveStudent(Arrays.asList(student,student1,student2,student3,student4));
+        student4.setCourses(Arrays.asList(course1, course2));
+        student1.setCourses(Arrays.asList(course));
+        student3.setCourses(Arrays.asList(course));
+        student.setCourses(Arrays.asList(course3));
+        studentService.saveStudent(Arrays.asList(student, student1, student2, student3, student4));
 
         logger.debug("instuctor saved to DB {}" + instructor1);
     }
