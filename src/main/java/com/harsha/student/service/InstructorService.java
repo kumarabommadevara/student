@@ -1,6 +1,7 @@
 package com.harsha.student.service;
 
 import com.harsha.student.StudentApplication;
+import com.harsha.student.exception.InstructorNotFoundException;
 import com.harsha.student.model.entites.Instructor;
 import com.harsha.student.repository.InstructorRepository;
 import org.slf4j.Logger;
@@ -30,4 +31,13 @@ public class InstructorService {
     {
         return instructorRepository.findAll();
     }
-}
+
+    public Instructor getInstructorById(Integer instructorId) throws InstructorNotFoundException {
+        return instructorRepository.findById(instructorId).orElseThrow(()->new InstructorNotFoundException("instructor with the id :"+ instructorId +"is not found"));
+    }
+
+    public Instructor getInstructorByName(String instructorName) throws InstructorNotFoundException {
+        return instructorRepository.findByInstructorName(instructorName).
+                orElseThrow(()->new InstructorNotFoundException("instructor with the name :"+ instructorName +"is not found"));
+    }
+    }

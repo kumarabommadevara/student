@@ -6,18 +6,21 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
 @Table(name = "instructors")
-@ToString
+@ToString(exclude ="courses")
 public class Instructor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "instructor_id")
     private Integer instructorId;
-    @Column(name = "name")
+    @Column(name = "instructor_name")
     private String  instructorName;
     @Column(name = "email")
     private String  instructorEmail;
@@ -25,6 +28,8 @@ public class Instructor {
     private String instructorMobile;
     @OneToOne(cascade = CascadeType.ALL)
     private InstructorDetail instructorDetail;
+    @OneToMany(mappedBy = "instructor",cascade = CascadeType.ALL)
+    private List<Course> courses=new ArrayList<>();
 
     public Instructor()
     {}
