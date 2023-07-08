@@ -34,9 +34,6 @@ public class StudentApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         save();
-        //findAllInstructors();
-        //findInstructorById();
-        //	findInstructorByName();
     }
 
 
@@ -76,28 +73,4 @@ public class StudentApplication implements CommandLineRunner {
         logger.debug("instuctor saved to DB {}" + instructor1);
     }
 
-    private void findAllInstructors() {
-        logger.debug("getting all instructors from DB");
-        List<Instructor> instructorList = instructorService.getInstructorList();
-        logger.debug("Available instructors in Db {} " + instructorList);
-
-        getInstructorDetails(instructorList);
-
-    }
-
-    private static void getInstructorDetails(List<Instructor> instructorList) {
-        instructorList.stream()
-                .forEach(instructor -> System.out.println(instructor.getInstructorDetail()));
-
-    }
-
-    private void findInstructorById() throws InstructorNotFoundException {
-        Instructor instructor = instructorService.getInstructorById(5);
-        logger.debug("instructor with id {} " + instructor);
-    }
-
-    private void findInstructorByName() throws InstructorNotFoundException {
-        Instructor instructor = instructorService.getInstructorByName("harsha");
-        logger.debug("instructor with name {} " + instructor);
-    }
 }

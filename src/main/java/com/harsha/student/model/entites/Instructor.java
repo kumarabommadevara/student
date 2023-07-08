@@ -1,5 +1,6 @@
 package com.harsha.student.model.entites;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +14,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "instructors")
-@ToString(exclude ="courses")
+@ToString()
 public class Instructor {
 
     @Id
@@ -27,8 +28,11 @@ public class Instructor {
     @Column(name = "mobile")
     private String instructorMobile;
     @OneToOne(cascade = CascadeType.ALL)
+    @ToString.Exclude
     private InstructorDetail instructorDetail;
     @OneToMany(mappedBy = "instructor",cascade = CascadeType.ALL)
+    @JsonIgnore
+    @ToString.Exclude
     private List<Course> courses=new ArrayList<>();
 
     public Instructor()
