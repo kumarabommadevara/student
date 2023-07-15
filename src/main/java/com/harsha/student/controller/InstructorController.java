@@ -2,6 +2,7 @@ package com.harsha.student.controller;
 
 import com.harsha.student.exception.InstructorNotFoundException;
 import com.harsha.student.model.entites.Instructor;
+import com.harsha.student.model.entites.InstructorVM;
 import com.harsha.student.service.InstructorService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +21,10 @@ private  final InstructorService instructorService;
         this.instructorService = instructorService;
     }
 
-    @GetMapping("/instructors")
-    public ResponseEntity<List<Instructor>> getInstructors()
+    @GetMapping("/")
+    public ResponseEntity<List<InstructorVM>> getInstructors()
     {
-        List<Instructor> instructorList = instructorService.getInstructorList();
+        List<InstructorVM> instructorList = instructorService.getInstructorList();
 
         return new ResponseEntity<>(instructorList, HttpStatus.OK);
     }
