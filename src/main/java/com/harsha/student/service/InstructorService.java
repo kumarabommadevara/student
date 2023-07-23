@@ -4,7 +4,9 @@ import com.harsha.student.exception.InstructorNotFoundException;
 import com.harsha.student.model.Address;
 import com.harsha.student.model.entites.Instructor;
 import com.harsha.student.model.entites.InstructorVM;
+import com.harsha.student.model.entites.SigninRequest;
 import com.harsha.student.repository.InstructorRepository;
+import org.aspectj.lang.annotation.SuppressAjWarnings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,8 @@ public class InstructorService {
 
     @Autowired
     private RestTemplate restTemplate;
-
+    @Autowired
+    JWTRetrivalService jwtRetrivalService;
     private static final String ADDRESS_URL="http://localhost:8080/instructor/";
     private final InstructorRepository instructorRepository;
 
@@ -41,7 +44,6 @@ public class InstructorService {
         logger.debug("inside Instructor service of saveInstructor method");
         return instructorRepository.save(instructor);
     }
-    @Cacheable(value = "itemCache")
 
     public List<InstructorVM> getInstructorList()
     {
@@ -75,8 +77,14 @@ public class InstructorService {
 
     private Address getAddressFromAddressService(Integer instructorId)
     {
+        SigninRequest jwtRetrivalVM= new SigninRequest();
+        jwtRetrivalVM.setUsername("harsha");
+        jwtRetrivalVM.setPassword("abc");
+        final String jwt = jwtRetrivalService.getJWT(jwtRetrivalVM);
         HttpHeaders headers = new org.springframework.http.HttpHeaders();
-        headers.set("application-name", "harsha");
+
+        headers.set("application-name","student-service");
+        headers.set("Authorization", "Bearer"+" "+ jwt);
 
         HttpEntity<String> entity = new HttpEntity<String>(headers);
         ResponseEntity< Address> response = restTemplate.exchange(ADDRESS_URL+instructorId,
