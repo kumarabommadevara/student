@@ -10,6 +10,7 @@ import com.harsha.student.repository.InstructorRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -30,15 +31,15 @@ public class InstructorService {
     private RestTemplate restTemplate;
     @Autowired
     JWTRetrivalService jwtRetrivalService;
-    private static final String ADDRESS_URL="http://localhost:8080/instructor/";
-    private static final String REVIEW_URL="http://localhost:8090/reviews/instructor/";
+    @Autowired
+    private   DiscoveryClient discoveryClient;
+
     private final InstructorRepository instructorRepository;
 
     public InstructorService(InstructorRepository instructorRepository)
     {
         this.instructorRepository=instructorRepository;
     }
-
     public Instructor saveInstructor(Instructor instructor)
     {
         logger.debug("inside Instructor service of saveInstructor method");
@@ -70,10 +71,11 @@ public class InstructorService {
 
     private List<Review> getReviewsFromReviewService(Integer instructorId) {
 
+        final String uri = discoveryClient.getInstances("REVIEW_API").get(0).getUri().toString();
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
         HttpEntity<?> entity = new HttpEntity<>(headers);
-        String urlTemplate = UriComponentsBuilder.fromHttpUrl(REVIEW_URL)
+        String urlTemplate = UriComponentsBuilder.fromHttpUrl(uri+"/reviews/instructor/")
                 .queryParam("id", "{instructorId}")
                 .encode()
                 .toUriString();
@@ -116,6 +118,10 @@ public class InstructorService {
 
     private Address getAddressFromAddressService(Integer instructorId)
     {
+        final String addressApi = discoveryClient.getInstances("ADDRESS_API").get(0).getUri().toString();
+
+        System.out.println("ADDRESS API="+addressApi);
+
         SigninRequest jwtRetrivalVM= new SigninRequest();
         jwtRetrivalVM.setUsername("harsha");
         jwtRetrivalVM.setPassword("abc");
@@ -126,7 +132,7 @@ public class InstructorService {
         headers.set("Authorization", "Bearer"+" "+ jwt);
 
         HttpEntity<String> entity = new HttpEntity<String>(headers);
-        ResponseEntity< Address> response = restTemplate.exchange(ADDRESS_URL+instructorId,
+        ResponseEntity< Address> response = restTemplate.exchange(addressApi+"/instructor/"+instructorId,
                 HttpMethod.GET,entity, new ParameterizedTypeReference<Address>() {});
         return response.getBody();
 
