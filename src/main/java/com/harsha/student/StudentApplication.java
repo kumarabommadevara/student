@@ -14,12 +14,13 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 import java.util.Arrays;
 import java.util.List;
 
 @SpringBootApplication
-@EnableCaching
+@EnableDiscoveryClient
 public class StudentApplication implements CommandLineRunner {
 
     @Autowired
