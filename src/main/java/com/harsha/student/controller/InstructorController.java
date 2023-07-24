@@ -29,8 +29,8 @@ private  final InstructorService instructorService;
         return new ResponseEntity<>(instructorList, HttpStatus.OK);
     }
     @GetMapping("/instructor/{name}")
-    public ResponseEntity<Instructor> getInstructorByName(@PathVariable("name") String name) throws InstructorNotFoundException {
-        Instructor instructor = instructorService.getInstructorByName(name);
+    public ResponseEntity<InstructorVM> getInstructorByName(@PathVariable("name") String name) throws InstructorNotFoundException {
+        InstructorVM instructor = instructorService.getInstructorByName(name);
 
         return new ResponseEntity<>(instructor, HttpStatus.OK);
     }

@@ -2,6 +2,7 @@ package com.harsha.student.model.entites;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.harsha.student.model.Address;
+import com.harsha.student.model.Review;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,5 +25,6 @@ public class InstructorVM {
     private InstructorDetail instructorDetail;
     private List<Course> courses=new ArrayList<>();
     private Address address;
+    private List<Review> reviews=new ArrayList<>();
 
 }
